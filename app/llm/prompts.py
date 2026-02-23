@@ -1,10 +1,12 @@
+import json
+
 
 def get_intent_extraction_prompt(question, schema):
     return f"""
 You are an expert system that converts natural language into structured JSON intent.
 
 Available database schema:
-{schema}
+{json.dumps(schema, indent=2)}
 
 Return JSON in this exact format:
 
@@ -33,10 +35,10 @@ def get_sql_generation_prompt(intent, schema):
 You are a SQL generator.
 
 Intent:
-{intent}
+{json.dumps(intent, indent=2)}
 
 Schema:
-{schema}
+{json.dumps(schema, indent=2)}
 
 Rules:
 - Generate ONLY a valid SQL SELECT query.
@@ -45,4 +47,3 @@ Rules:
 - Do NOT include markdown.
 - Return raw SQL only.
 """
-
