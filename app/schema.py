@@ -1,71 +1,60 @@
 SCHEMA = {
+
     "customers": {
+        "table_name": "bigquery-public-data.thelook_ecommerce.users",
         "columns": {
-            "customer_id": {"type": "INTEGER"},
-            "first_name": {"type": "VARCHAR"},
-            "last_name": {"type": "VARCHAR"},
-            "email": {"type": "VARCHAR"},
-            "phone": {"type": "VARCHAR"},
-            "city": {"type": "VARCHAR"},
-            "country": {"type": "VARCHAR"},
-            "signup_date": {"type": "DATE"},
-            "status": {"type": "VARCHAR"},
-            "loyalty_points": {"type": "INTEGER"}
+            "id": {"type": "INTEGER"},
+            "first_name": {"type": "STRING"},
+            "last_name": {"type": "STRING"},
+            "email": {"type": "STRING"},
+            "city": {"type": "STRING"},
+            "country": {"type": "STRING"},
+            "created_at": {"type": "TIMESTAMP"}
         },
-        "primary_key": "customer_id",
+        "primary_key": "id",
         "foreign_keys": {}
     },
 
     "products": {
+        "table_name": "bigquery-public-data.thelook_ecommerce.products",
         "columns": {
-            "product_id": {"type": "INTEGER"},
-            "product_name": {"type": "VARCHAR"},
-            "category": {"type": "VARCHAR"},
-            "brand": {"type": "VARCHAR"},
-            "price": {"type": "FLOAT"},
-            "cost_price": {"type": "FLOAT"},
-            "stock_quantity": {"type": "INTEGER"},
-            "rating": {"type": "FLOAT"},
-            "created_at": {"type": "DATE"}
+            "id": {"type": "INTEGER"},
+            "name": {"type": "STRING"},
+            "category": {"type": "STRING"},
+            "brand": {"type": "STRING"},
+            "retail_price": {"type": "FLOAT"}
         },
-        "primary_key": "product_id",
+        "primary_key": "id",
         "foreign_keys": {}
     },
 
     "orders": {
+        "table_name": "bigquery-public-data.thelook_ecommerce.orders",
         "columns": {
             "order_id": {"type": "INTEGER"},
-            "customer_id": {"type": "INTEGER"},
-            "order_date": {"type": "DATE"},
-            "shipping_date": {"type": "DATE"},
-            "delivery_date": {"type": "DATE"},
-            "total_amount": {"type": "FLOAT"},
-            "discount_amount": {"type": "FLOAT"},
-            "payment_method": {"type": "VARCHAR"},
-            "order_status": {"type": "VARCHAR"},
-            "shipping_city": {"type": "VARCHAR"}
+            "user_id": {"type": "INTEGER"},
+            "status": {"type": "STRING"},
+            "created_at": {"type": "TIMESTAMP"}
         },
         "primary_key": "order_id",
         "foreign_keys": {
-            "customer_id": "customers.customer_id"
+            "user_id": "customers.id"
         }
     },
 
     "order_items": {
+        "table_name": "bigquery-public-data.thelook_ecommerce.order_items",
         "columns": {
-            "order_item_id": {"type": "INTEGER"},
+            "id": {"type": "INTEGER"},
             "order_id": {"type": "INTEGER"},
             "product_id": {"type": "INTEGER"},
-            "quantity": {"type": "INTEGER"},
-            "unit_price": {"type": "FLOAT"},
-            "total_price": {"type": "FLOAT"},
-            "tax_amount": {"type": "FLOAT"},
-            "discount_amount": {"type": "FLOAT"}
+            "sale_price": {"type": "FLOAT"},
+            "created_at": {"type": "TIMESTAMP"}
         },
-        "primary_key": "order_item_id",
+        "primary_key": "id",
         "foreign_keys": {
             "order_id": "orders.order_id",
-            "product_id": "products.product_id"
+            "product_id": "products.id"
         }
     }
 }

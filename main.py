@@ -1,18 +1,10 @@
-from app.execution.database import initialize_database, insert_dummy_data
-from app.services.nl2sql import process_question
+from app.services.nl2sql import run_pipeline
 
 
-if __name__ == "__main__":
+while True:
 
-    initialize_database()
-    insert_dummy_data()
+    q = input("Enter your question: ")
 
-    while True:
-        question = input("\nEnter your question: ")
-        response = process_question(question)
+    result = run_pipeline(q)
 
-        if "error" in response:
-            print("Error:", response["error"])
-        else:
-            print("\nGenerated SQL:\n", response["sql"])
-            print("\nResults:\n", response["data"])
+    print(result)

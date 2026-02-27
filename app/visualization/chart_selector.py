@@ -1,20 +1,14 @@
-def select_chart(columns, results):
-    if not results or len(columns) < 2:
+def choose_chart(columns):
+
+    if not columns:
         return None
 
-    first_value = results[0][0]
-    second_value = results[0][1]
+    if len(columns) < 2:
+        return None
 
-    # Date + numeric → Line chart
-    if isinstance(second_value, (int, float)) and "date" in columns[0].lower():
+    first = columns[0].lower()
+
+    if "date" in first or "time" in first:
         return "line"
 
-    # Categorical + numeric → Bar chart
-    if isinstance(second_value, (int, float)) and not isinstance(first_value, (int, float)):
-        return "bar"
-
-    # Two numeric → Scatter
-    if isinstance(first_value, (int, float)) and isinstance(second_value, (int, float)):
-        return "scatter"
-
-    return None
+    return "bar"

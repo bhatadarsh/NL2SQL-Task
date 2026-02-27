@@ -1,40 +1,30 @@
-import matplotlib.pyplot as plt
+import pandas as pd
+import plotly.express as px
 
 
-def plot_bar(columns, results):
-    x = [row[0] for row in results]
-    y = [row[1] for row in results]
+def plot_chart(columns, rows):
 
-    fig, ax = plt.subplots()
-    ax.bar(x, y)
-    ax.set_xlabel(columns[0])
-    ax.set_ylabel(columns[1])
-    ax.set_xticks(range(len(x)))
-    ax.set_xticklabels(x, rotation=45)
+    df = pd.DataFrame(rows, columns=columns)
 
-    return fig
+    if len(columns) < 2:
+        return None
 
+    x = columns[0]
+    y = columns[1]
 
-def plot_line(columns, results):
-    x = [row[0] for row in results]
-    y = [row[1] for row in results]
+    # detect chart type
+    if "date" in x.lower() or "time" in x.lower():
+        fig = px.line(df, x=x, y=y, markers=True, title=f"{y} over {x}")
 
-    fig, ax = plt.subplots()
-    ax.plot(x, y, marker="o")
-    ax.set_xlabel(columns[0])
-    ax.set_ylabel(columns[1])
-    ax.tick_params(axis='x', rotation=45)
+    elif df[y].nunique() < 10:
+        fig = px.pie(df, names=x, values=y, title=f"{y} Distribution")
 
-    return fig
+    else:
+        fig = px.bar(df, x=x, y=y, title=f"{y} by {x}")
 
-
-def plot_scatter(columns, results):
-    x = [row[0] for row in results]
-    y = [row[1] for row in results]
-
-    fig, ax = plt.subplots()
-    ax.scatter(x, y)
-    ax.set_xlabel(columns[0])
-    ax.set_ylabel(columns[1])
+    fig.update_layout(
+        template="plotly_white",
+        height=500
+    )
 
     return fig
